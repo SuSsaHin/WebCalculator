@@ -1,4 +1,4 @@
-﻿namespace WebCalculator.CalculatorCore.States
+﻿namespace WebCalculator.Calculators.States
 {
 	interface IState
 	{

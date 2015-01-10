@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
-using WebCalculator.CalculatorCore;
+using WebCalculator.Calculators;
 using Assert = NUnit.Framework.Assert;
 using ExpectedExceptionAttribute = NUnit.Framework.ExpectedExceptionAttribute;
 
 namespace Tests
 {
 	[TestClass]
-	public class UnitTest1
+	public class Tests
 	{
 		private PluginsOperators operators;
 		private Calculator calculator;

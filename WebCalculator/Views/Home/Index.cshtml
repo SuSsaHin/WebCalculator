@@ -14,15 +14,12 @@
         @Html.LabelFor(m => m.Input)
         @Html.TextBoxFor(m => m.Input)
         <br/>
-        @Html.LabelFor(m => m.Answer)
-        @Html.TextBoxFor(m => m.Answer)
         <br />
         <input type="submit" value="Посчитать" />
-    </fieldset>
+        <br />
+        Ответ
+        @Model.Answer
+        <br />
 
-    <fieldset>
-        <legend>Калькулятор</legend>
-        @Html.ListBoxFor(m => m.)
-        <input type="submit" value="Посчитать" />
     </fieldset>
 }

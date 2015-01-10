@@ -1,6 +1,6 @@
 ﻿using OperatorsLibrary;
 
-namespace WebCalculator.CalculatorCore
+namespace WebCalculator.Calculators
 {
 	public interface IOperators
 	{

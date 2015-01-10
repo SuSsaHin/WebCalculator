@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace WebCalculator.CalculatorCore
+namespace WebCalculator.Calculators
 {
 	public static class CalculatorParams
 	{

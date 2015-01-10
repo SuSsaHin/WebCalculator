@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using OperatorsLibrary;
-using WebCalculator.CalculatorCore.States;
+using WebCalculator.Calculators.States;
 
-namespace WebCalculator.CalculatorCore
+namespace WebCalculator.Calculators
 {
 	class CalculatorContext
 	{

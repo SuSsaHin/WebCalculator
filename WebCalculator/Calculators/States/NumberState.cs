@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebCalculator.CalculatorCore.States
+namespace WebCalculator.Calculators.States
 {
 	sealed class NumberState : IState 
 	{

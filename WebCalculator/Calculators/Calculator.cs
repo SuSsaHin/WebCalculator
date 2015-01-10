@@ -1,4 +1,4 @@
-﻿namespace WebCalculator.CalculatorCore
+﻿namespace WebCalculator.Calculators
 {
 	public class Calculator
 	{

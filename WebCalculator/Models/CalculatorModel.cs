@@ -1,20 +1,16 @@
-﻿using WebCalculator.CalculatorCore;
+﻿using System.ComponentModel.DataAnnotations;
+using WebCalculator.Calculators;
 
 namespace WebCalculator.Models
 {
 	public class CalculatorModel
 	{
-		private readonly PluginsOperators operators = new PluginsOperators();
+		public readonly PluginsOperators Operators = new PluginsOperators();
 
-		public string GetAnswer(string expression)
-		{
-			var calculator = new Calculator(operators);
+		[Required(ErrorMessage = "Пустое выражение")]
+		[Display(Name = "Введите выражение")]
+		public string Input { get; set; }
 
-			return calculator.Calculate(expression).ToString(CalculatorParams.CultureInfo);
-		}
-
-		public string Input;
-
-		public string Answer;
+		public string Answer { get; set; }
 	}
 }

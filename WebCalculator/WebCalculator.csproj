@@ -40,9 +40,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="OperatorsLibrary">
-      <HintPath>..\libs\OperatorsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -111,16 +108,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculatorCore\Calculator.cs" />
-    <Compile Include="CalculatorCore\CalculatorContext.cs" />
-    <Compile Include="CalculatorCore\CalculatorParams.cs" />
-    <Compile Include="CalculatorCore\IOperators.cs" />
-    <Compile Include="CalculatorCore\PluginsOperators.cs" />
-    <Compile Include="CalculatorCore\States\InitialState.cs" />
-    <Compile Include="CalculatorCore\States\InnerExpressionState.cs" />
-    <Compile Include="CalculatorCore\States\IState.cs" />
-    <Compile Include="CalculatorCore\States\NumberState.cs" />
-    <Compile Include="CalculatorCore\States\OperatorState.cs" />
+    <Compile Include="Calculators\BaseOperators\DivisionOperator.cs" />
+    <Compile Include="Calculators\BaseOperators\MinusOperator.cs" />
+    <Compile Include="Calculators\BaseOperators\MinusUnaryOperator.cs" />
+    <Compile Include="Calculators\BaseOperators\MultiplyOperator.cs" />
+    <Compile Include="Calculators\BaseOperators\PlusOperator.cs" />
+    <Compile Include="Calculators\Calculator.cs" />
+    <Compile Include="Calculators\CalculatorContext.cs" />
+    <Compile Include="Calculators\CalculatorParams.cs" />
+    <Compile Include="Calculators\IOperators.cs" />
+    <Compile Include="Calculators\PluginsOperators.cs" />
+    <Compile Include="Calculators\States\InitialState.cs" />
+    <Compile Include="Calculators\States\InnerExpressionState.cs" />
+    <Compile Include="Calculators\States\IState.cs" />
+    <Compile Include="Calculators\States\NumberState.cs" />
+    <Compile Include="Calculators\States\OperatorState.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -150,6 +152,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OperatorsLibrary\OperatorsLibrary.csproj">
+      <Project>{0d21ee74-bb63-46ec-bb14-9e18b0b08e9d}</Project>
+      <Name>OperatorsLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -182,6 +190,9 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy /y "$(SolutionDir)\libs\base.dll" "$(TargetDir)\libs\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

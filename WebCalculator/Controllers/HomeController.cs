@@ -1,13 +1,29 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
+using WebCalculator.Calculators;
 using WebCalculator.Models;
 
 namespace WebCalculator.Controllers
 {
     public class HomeController : Controller
     {
-        //
-        // GET: /Home/
+		private static string GetAnswer(IOperators operators, string expression)
+		{
+			string answer;
+			try
+			{
+				var calculator = new Calculator(operators);
+				answer = calculator.Calculate(expression).ToString(CalculatorParams.CultureInfo);
+			}
+			catch (Exception ex)
+			{
+				answer = ex.Message;
+			}
+			
+			return answer;
+		}
 
+        [HttpGet]
         public ActionResult Index()
         {
 	        var m = new CalculatorModel {Answer = 0.ToString()};
@@ -17,7 +33,11 @@ namespace WebCalculator.Controllers
 		[HttpPost]
 		public ActionResult Index(CalculatorModel m)
 		{
-			m.Answer = 1.ToString();
+			if (ModelState.IsValid)
+			{
+				m.Answer = GetAnswer(m.Operators, m.Input);
+			}
+
 			return View(m);
 		}
     }

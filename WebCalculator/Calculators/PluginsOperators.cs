@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using BaseOperators;
 using OperatorsLibrary;
 
-namespace WebCalculator.CalculatorCore
+namespace WebCalculator.Calculators
 {
 	public class PluginsOperators : IOperators
 	{
-		private Dictionary<string, Dictionary<string, IOperator>> operators = new Dictionary<string, Dictionary<string, IOperator>>();
+		private readonly Dictionary<string, Dictionary<string, IOperator>> operators = new Dictionary<string, Dictionary<string, IOperator>>();
 
 		private static string GetKey(string operatorText, int operatorDimension)
 		{
@@ -18,7 +19,18 @@ namespace WebCalculator.CalculatorCore
 
 		public PluginsOperators()
 		{
-			AddPlugin("base.dll");
+			var operatorsList = new List<IOperator>
+			{
+				new PlusOperator(),
+				new DivisionOperator(),
+				new MultiplyOperator(),
+				new MinusOperator(),
+				new MinusUnaryOperator(),
+			};
+
+			var baseOperators = operatorsList.ToDictionary(op => GetKey(op.Text, op.Dimension));
+
+			operators.Add("base", baseOperators);
 		}
 
 		public IOperator Get(string text, int dimension)
