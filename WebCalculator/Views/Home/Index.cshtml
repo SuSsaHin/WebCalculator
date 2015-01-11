@@ -1,15 +1,17 @@
-﻿@model WebCalculator.Models.CalculatorModel
-
-@{
+﻿@{
     ViewBag.Title = "Calculator";
 }
 
-@using (Ajax.BeginForm("CalculatorResult", new AjaxOptions { UpdateTargetId = "calculatorResults" }))
+@model WebCalculator.Models.CalculatorModel
+
+@Html.Partial("Plugins", Model.Operators)
+
+@using (Ajax.BeginForm("CalculatorResult", new AjaxOptions { UpdateTargetId = "calculatorResults"}))
 {
     <fieldset>
         <legend>Калькулятор</legend>
         @Html.LabelFor(m => m.InputExpression)
-        @Html.TextBoxFor(m => m.InputExpression, new Dictionary<string, object> { { "size", 50 } })
+        @Html.TextBoxFor(m => m.InputExpression, new { size = 50 } )
         <input type="submit" value="Посчитать" />
     </fieldset>
 }

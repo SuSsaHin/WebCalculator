@@ -1,0 +1,5 @@
+﻿@model WebCalculator.Models.CalculatorModel.OperatorsModel
+
+<div id="pluginsList">
+        @Html.DropDownListFor(m => m.SelectedPlugin, new SelectList(@Model.Plugins))
+</div>

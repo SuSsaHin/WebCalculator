@@ -50,24 +50,29 @@ namespace WebCalculator.Calculators
 			return operators.ToDictionary(set => set.Key, set => set.Value.Select(op => op.Key).ToList());
 		}
 
-		public void AddPlugin(string dllPath)
+		public void AddPlugin(byte[] pluginFile, string dllName)
 		{
-			var dllName = Path.GetFileName(dllPath);
-			if (dllName == null)
-				throw new Exception("Dll name is null");
-			
+			dllName = dllName.ToLower();
+
+			if (pluginFile == null || pluginFile.Length == 0)
+				throw new Exception("Empty plugin file");
+
 			if (operators.ContainsKey(dllName))
 				throw new Exception("Dll " + dllName + " was always loaded");
 
-			var fullPath = Path.GetFullPath(dllPath);
+			var plugin = Assembly.Load(pluginFile);
+			AddPlugin(plugin, dllName);
+		}
 
-			var plugin = Assembly.LoadFile(fullPath);
-			var newTypes = plugin.GetTypes().Where(t => t.GetInterfaces().Any(inter => inter.Name == typeof(IOperator).Name)).ToList();
+		private void AddPlugin(Assembly plugin, string dllName)
+		{
+			var newTypes =
+				plugin.GetTypes().Where(t => t.GetInterfaces().Any(inter => inter.Name == typeof (IOperator).Name)).ToList();
 			var newOperators = new Dictionary<string, IOperator>();
 
 			foreach (var type in newTypes)
 			{
-				var added = (IOperator)Activator.CreateInstance(type);
+				var added = (IOperator) Activator.CreateInstance(type);
 				var addedKey = GetKey(added.Text, added.Dimension);
 
 				foreach (var set in operators)

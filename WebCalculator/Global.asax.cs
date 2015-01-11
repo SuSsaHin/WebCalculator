@@ -1,6 +1,8 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using WebCalculator.Calculators;
 
 namespace WebCalculator
 {
@@ -8,6 +10,11 @@ namespace WebCalculator
 	// см. по ссылке http://go.microsoft.com/?LinkId=9394801
 	public class MvcApplication : System.Web.HttpApplication
 	{
+		protected void Session_Start(Object sender, EventArgs e)
+		{
+			Session["Operators"] = new PluginsOperators();
+		}
+
 		protected void Application_Start()
 		{
 			AreaRegistration.RegisterAllAreas();

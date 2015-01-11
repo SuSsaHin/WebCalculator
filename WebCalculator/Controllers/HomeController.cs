@@ -1,6 +1,6 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebCalculator.Calculators;
 using WebCalculator.Models;
@@ -9,12 +9,13 @@ namespace WebCalculator.Controllers
 {
     public class HomeController : Controller
     {
-		private static string GetAnswer(IOperators operators, string expression)
+		private PluginsOperators Operators { get { return (PluginsOperators) Session["Operators"]; } }
+		private string GetAnswer(string expression)
 		{
 			string answer;
 			try
 			{
-				var calculator = new Calculator(operators);
+				var calculator = new Calculator(Operators);
 				answer = calculator.Calculate(expression).ToString(CalculatorParams.CultureInfo);
 			}
 			catch (Exception ex)
@@ -28,26 +29,9 @@ namespace WebCalculator.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-	        var m = new CalculatorModel {Result = ""};
-	        //m.Plugins = m.Operators.GetList().Select(set => new SelectListItem(){Text = set.Key, Value = set.Key}).ToList();
-			m.Plugins = m.Operators.GetList().Select(set => set.Key).ToList();
-			m.Plugins.Add("2");
-			m.Plugins.Add("3");
-			m.Plugins.Add("4");
+			var m = new CalculatorModel { Result = "", Operators = new CalculatorModel.OperatorsModel { Plugins = Operators.GetList().Select(set => set.Key).ToList() } };
 
 	        return View(m);
-		}
-
-		[HttpPost]
-		public ActionResult Index(CalculatorModel m)
-		{
-			if (ModelState.IsValid)
-			{
-				m.Result = GetAnswer(m.Operators, m.InputExpression);
-			}
-			m.Plugins = m.Operators.GetList().Select(set => set.Key).ToList();
-
-			return View(m);
 		}
 
 		[HttpPost]
@@ -55,16 +39,38 @@ namespace WebCalculator.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				m.Result = GetAnswer(m.Operators, m.InputExpression);
+				m.Result = GetAnswer(m.InputExpression);
 			}
 
 			return PartialView(m);
 		}
 
-		[HttpPost]
-		public ActionResult UploadFile(HttpPostedFileWrapper qqfile)
+		[HttpGet]
+		public ActionResult PluginsList()
 		{
-			return Json(new { result = "ok", success = true });
+			var m = new CalculatorModel.OperatorsModel { Plugins = Operators.GetList().Select(set => set.Key).ToList() };
+			return PartialView(m);
+		}
+
+		[HttpPost]
+		public string Upload()
+		{
+			try
+			{
+				var file = Request.Files["file0"];
+				if (Path.GetExtension(file.FileName).ToLower() != ".dll")
+					return "Bad file format";
+
+				var buffer = new byte[file.ContentLength];
+				file.InputStream.Read(buffer, 0, file.ContentLength);
+				Operators.AddPlugin(buffer, Path.GetFileNameWithoutExtension(file.FileName));
+			}
+			catch (Exception e)
+			{
+				return e.Message;
+			}
+
+			return "File successfully loaded";
 		}
     }
 }
