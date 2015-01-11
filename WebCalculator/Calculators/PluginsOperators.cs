@@ -42,7 +42,12 @@ namespace WebCalculator.Calculators
 			{
 				return result;
 			}
-			throw new Exception("Unknown binary operator: " + key);
+			throw new Exception("Unknown operator: " + key);
+		}
+
+		public Dictionary<string, List<string>> GetList()
+		{
+			return operators.ToDictionary(set => set.Key, set => set.Value.Select(op => op.Key).ToList());
 		}
 
 		public void AddPlugin(string dllPath)

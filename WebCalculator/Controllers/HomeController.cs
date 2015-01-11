@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using WebCalculator.Calculators;
 using WebCalculator.Models;
@@ -26,7 +28,13 @@ namespace WebCalculator.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-	        var m = new CalculatorModel {Answer = 0.ToString()};
+	        var m = new CalculatorModel {Result = ""};
+	        //m.Plugins = m.Operators.GetList().Select(set => new SelectListItem(){Text = set.Key, Value = set.Key}).ToList();
+			m.Plugins = m.Operators.GetList().Select(set => set.Key).ToList();
+			m.Plugins.Add("2");
+			m.Plugins.Add("3");
+			m.Plugins.Add("4");
+
 	        return View(m);
 		}
 
@@ -35,10 +43,28 @@ namespace WebCalculator.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				m.Answer = GetAnswer(m.Operators, m.Input);
+				m.Result = GetAnswer(m.Operators, m.InputExpression);
 			}
+			m.Plugins = m.Operators.GetList().Select(set => set.Key).ToList();
 
 			return View(m);
+		}
+
+		[HttpPost]
+		public ActionResult CalculatorResult(CalculatorModel m)
+		{
+			if (ModelState.IsValid)
+			{
+				m.Result = GetAnswer(m.Operators, m.InputExpression);
+			}
+
+			return PartialView(m);
+		}
+
+		[HttpPost]
+		public ActionResult UploadFile(HttpPostedFileWrapper qqfile)
+		{
+			return Json(new { result = "ok", success = true });
 		}
     }
 }

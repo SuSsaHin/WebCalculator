@@ -4,22 +4,13 @@
     ViewBag.Title = "Calculator";
 }
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("CalculatorResult", new AjaxOptions { UpdateTargetId = "calculatorResults" }))
 {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-
     <fieldset>
         <legend>Калькулятор</legend>
-        @Html.LabelFor(m => m.Input)
-        @Html.TextBoxFor(m => m.Input)
-        <br/>
-        <br />
+        @Html.LabelFor(m => m.InputExpression)
+        @Html.TextBoxFor(m => m.InputExpression, new Dictionary<string, object> { { "size", 50 } })
         <input type="submit" value="Посчитать" />
-        <br />
-        Ответ
-        @Model.Answer
-        <br />
-
     </fieldset>
 }
+@Html.Partial("CalculatorResult")

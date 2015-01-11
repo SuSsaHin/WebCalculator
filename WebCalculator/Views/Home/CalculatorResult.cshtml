@@ -1,0 +1,13 @@
+﻿@model WebCalculator.Models.CalculatorModel
+
+@using(@Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <div id="calculatorResults">
+        <fieldset>
+            <legend>Результат</legend>
+            @Model.Result
+            <br />
+        </fieldset>
+    </div>
+}
