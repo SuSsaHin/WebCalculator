@@ -9,7 +9,7 @@ namespace OperatorsLibrary
 
 		public string Text { get; private set; }
 
-		public int Dimension
+		public uint Dimension
 		{
 			get { return 2; }
 		}

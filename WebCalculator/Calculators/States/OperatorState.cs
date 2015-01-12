@@ -5,9 +5,9 @@ namespace WebCalculator.Calculators.States
 	sealed class OperatorState : IState
 	{
 		private string oper;
-		private readonly int dimension;
+		private readonly uint dimension;
 
-		public OperatorState(char c, int dimension)
+		public OperatorState(char c, uint dimension)
 		{
 			this.dimension = dimension;
 			Process(c);

@@ -1,0 +1,24 @@
+﻿@using System.Web.Optimization
+
+@{
+    Layout = null;   
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Help</title>
+    @Styles.Render("~/Content/Help.css")
+</head>
+<body>
+    <div class="Help">
+        Для создания бинарного оператора реализуйте наследника абстрактного класса BinaryOperator, определив функцию <div class="Code">double Execute(double arg1, double arg2)</div>.<br/>
+        Для создания унарного оператора реализуйте наследника абстрактного класса UnaryOperator, определив функцию <div class="Code">double Execute(double arg)</div>.<br />
+        В конструктор базового класса передаются приоритет и текст оператора.<br />
+        Текст оператора не должен содержать пробелов, скобок и цифр, а также не должен начинаться с '.'.
+    </div>
+    <br />
+    <a href ="/Home/GetFile">Скачать dll</a>
+</body>
+</html>

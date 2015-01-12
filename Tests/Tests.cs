@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using WebCalculator.Calculators;
@@ -53,7 +54,10 @@ namespace Tests
 		[TestCase("TestLib.dll", "2+(sign 1)", 3)]
 		public void TestDll(string dllName, string input, double result)
 		{
-			operators.AddPlugin(dllName);
+			var fs = new FileStream(dllName, FileMode.Open);
+			var buffer = new byte[fs.Length];
+			fs.Read(buffer, 0, (int)fs.Length);
+			operators.AddPlugin(buffer, Path.GetFileNameWithoutExtension(dllName));
 
 			double calculated = calculator.Calculate(input);
 			Assert.That(Math.Abs(calculated - result) < 0.0001);

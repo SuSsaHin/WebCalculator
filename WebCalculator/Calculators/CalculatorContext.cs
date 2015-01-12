@@ -40,7 +40,7 @@ namespace WebCalculator.Calculators
 			}
 		}
 
-		public void PushOperator(string key, int dimension)
+		public void PushOperator(string key, uint dimension)
 		{
 			var oper = AllOperators.Get(key, dimension);
 			ExecuteOperators(oper.Priority);

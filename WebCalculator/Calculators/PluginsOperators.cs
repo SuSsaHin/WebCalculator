@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using BaseOperators;
@@ -14,9 +13,53 @@ namespace WebCalculator.Calculators
 
 		private const string baseName = "base";
 
-		private static string GetKey(string operatorText, int operatorDimension)
+		private static string GetKey(string operatorText, uint operatorDimension)
 		{
 			return operatorText + " " + operatorDimension;
+		}
+
+		private void ValidateOperator(IOperator oper)
+		{
+			if (string.IsNullOrEmpty(oper.Text))
+				throw new Exception("Found operators with empty text");
+
+			if (oper.Text.First() == CalculatorParams.DecimalSeparator)
+				throw new Exception("Operator '" + oper.Text + "' starts with " + CalculatorParams.DecimalSeparator);
+
+			foreach (var c in oper.Text)
+			{
+				if (c == ' ' || c == CalculatorParams.LeftBracket || c == CalculatorParams.RightBracket)
+					throw new Exception("Operator '" + oper.Text + "' contains " + c);
+			}
+
+			var key = GetKey(oper.Text, oper.Dimension);
+
+			foreach (var set in operators)
+			{
+				if (set.Value.ContainsKey(key))
+					throw new Exception(set.Key + " contains operator " + key);
+			}
+		}
+
+		private void AddPlugin(Assembly plugin, string dllName)
+		{
+			var newTypes =
+				plugin.GetTypes().Where(t => t.GetInterfaces().Any(inter => inter.Name == typeof(IOperator).Name) && !t.IsAbstract).ToList();
+
+			if (!newTypes.Any())
+				throw new Exception("File doesn't contains operators");
+
+			var newOperators = new Dictionary<string, IOperator>();
+
+			foreach (var type in newTypes)
+			{
+				var added = (IOperator)Activator.CreateInstance(type);
+				ValidateOperator(added);
+
+				newOperators.Add(GetKey(added.Text, added.Dimension), added);
+			}
+
+			operators.Add(dllName, newOperators);
 		}
 
 		public PluginsOperators()
@@ -35,7 +78,7 @@ namespace WebCalculator.Calculators
 			operators.Add(baseName, baseOperators);
 		}
 
-		public IOperator Get(string text, int dimension)
+		public IOperator Get(string text, uint dimension)
 		{
 			var key = GetKey(text, dimension);
 
@@ -64,29 +107,6 @@ namespace WebCalculator.Calculators
 
 			var plugin = Assembly.Load(pluginFile);
 			AddPlugin(plugin, dllName);
-		}
-
-		private void AddPlugin(Assembly plugin, string dllName)
-		{
-			var newTypes =
-				plugin.GetTypes().Where(t => t.GetInterfaces().Any(inter => inter.Name == typeof (IOperator).Name)).ToList();
-			var newOperators = new Dictionary<string, IOperator>();
-
-			foreach (var type in newTypes)
-			{
-				var added = (IOperator) Activator.CreateInstance(type);
-				var addedKey = GetKey(added.Text, added.Dimension);
-
-				foreach (var set in operators)
-				{
-					if (set.Value.ContainsKey(addedKey))
-						throw new Exception(set.Key + " contains operator " + addedKey);
-				}
-
-				newOperators.Add(addedKey, added);
-			}
-
-			operators.Add(dllName, newOperators);
 		}
 
 		public bool DeletePlugin(string pluginName)

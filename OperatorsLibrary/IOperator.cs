@@ -5,7 +5,7 @@ namespace OperatorsLibrary
 	public interface IOperator
 	{
 		uint Priority { get; }
-		int Dimension { get; }
+		uint Dimension { get; }
 		string Text { get; }
 		double Execute(List<double> args);
 	}

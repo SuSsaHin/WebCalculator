@@ -41,7 +41,7 @@ namespace WebCalculator.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult PluginsList()
+		public ActionResult PluginsListPart()
 		{
 			var operators = Operators.GetList();
 			var m = new CalculatorModel.PluginsModel { Plugins = operators.Keys.ToList()};
@@ -50,7 +50,7 @@ namespace WebCalculator.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult OperatorsList(string selected)
+		public ActionResult OperatorsListPart(string selected)
 		{
 			var operators = Operators.GetList()[selected];
 			return PartialView(operators);
@@ -100,5 +100,11 @@ namespace WebCalculator.Controllers
 			const string path = @"\libs\OperatorsLibrary.dll";
 			return File(path, "application/x-msdos-program", Path.GetFileName(path));
 		}
+
+	    [HttpGet]
+	    public ActionResult Help()
+	    {
+		    return View();
+	    }
     }
 }

@@ -5,14 +5,14 @@
 function UpdateOperators(select) {
     var index = select.selectedIndex;
     var selected = select.options[index].value;
-    $.post("Home/OperatorsList?selected=" + selected, function (data) {
+    $.post("Home/OperatorsListPart?selected=" + selected, function (data) {
         $('#SelectedOperators').html(data);
         select.selectedIndex = index;
     });
 }
 
 function UpdatePlugins() {
-    $('#pluginsList').load('Home/PluginsList');
+    $('#pluginsList').load('Home/PluginsListPart');
 }
 
 function DeletePlugin(elementId) {

@@ -7,7 +7,7 @@ namespace OperatorsLibrary
 	{
 		public uint Priority { get; private set; }
 
-		public int Dimension
+		public uint Dimension
 		{
 			get { return 1; }
 		}
