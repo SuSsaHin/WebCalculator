@@ -4,6 +4,8 @@
 
 @model WebCalculator.Models.CalculatorModel
 
+<a href ="/Home/GetFile">Get dll</a>
+
 @Html.Partial("Plugins", Model.Operators)
 
 @using (Ajax.BeginForm("CalculatorResult", "Home", new AjaxOptions { UpdateTargetId = "calculatorResult" }, new { name = "CalculatorForm" }))

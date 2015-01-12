@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Web.Mvc;
 using WebCalculator.Calculators;
 using WebCalculator.Models;
@@ -91,6 +92,13 @@ namespace WebCalculator.Controllers
 		public void DeletePlugin(string deleted)
 		{
 			Operators.DeletePlugin(deleted);
+		}
+
+		[HttpGet]
+		public FilePathResult GetFile()
+		{
+			const string path = @"\libs\OperatorsLibrary.dll";
+			return File(path, "application/x-msdos-program", Path.GetFileName(path));
 		}
     }
 }
