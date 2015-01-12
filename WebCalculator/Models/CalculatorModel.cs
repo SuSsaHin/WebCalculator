@@ -11,7 +11,7 @@ namespace WebCalculator.Models
 
 		public string Result { get; set; }
 
-		public PluginsModel Operators { get; set; }
+		public PluginsModel Plugins { get; set; }
 		
 		public class PluginsModel
 		{
