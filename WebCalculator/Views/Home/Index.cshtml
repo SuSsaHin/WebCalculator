@@ -6,13 +6,17 @@
 
 @Html.Partial("Plugins", Model.Operators)
 
-@using (Ajax.BeginForm("CalculatorResult", new AjaxOptions { UpdateTargetId = "calculatorResults"}))
+@using (Ajax.BeginForm("CalculatorResult", "Home", new AjaxOptions { UpdateTargetId = "calculatorResult" }, new { name = "CalculatorForm" }))
 {
     <fieldset>
         <legend>Калькулятор</legend>
         @Html.LabelFor(m => m.InputExpression)
-        @Html.TextBoxFor(m => m.InputExpression, new { size = 50 } )
+        @Html.TextBoxFor(m => m.InputExpression, new { size = 50, id = "InputExpression" } )
         <input type="submit" value="Посчитать" />
     </fieldset>
+
+    <fieldset>
+        <legend>Результат</legend>
+        <div id="calculatorResult"></div>
+    </fieldset>
 }
-@Html.Partial("CalculatorResult")

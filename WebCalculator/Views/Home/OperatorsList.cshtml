@@ -1,0 +1,3 @@
+﻿@model List<string>
+
+@Html.ListBox("SelectedOperators", new SelectList(Model), new { id = "SelectedOperators", ondblclick = "AddText(this)" })

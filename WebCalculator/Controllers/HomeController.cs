@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -29,27 +30,40 @@ namespace WebCalculator.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-			var m = new CalculatorModel { Result = "", Operators = new CalculatorModel.OperatorsModel { Plugins = Operators.GetList().Select(set => set.Key).ToList() } };
+	        var operators = Operators.GetList();
+	        var m = new CalculatorModel { Result = "", Operators = new CalculatorModel.PluginsModel { Plugins = operators.Keys.ToList()} };
+
+	        var first = m.Operators.Plugins.FirstOrDefault();
+	        m.Operators.Operators = first == null ? new List<string>() : operators[first];
 
 	        return View(m);
-		}
-
-		[HttpPost]
-		public ActionResult CalculatorResult(CalculatorModel m)
-		{
-			if (ModelState.IsValid)
-			{
-				m.Result = GetAnswer(m.InputExpression);
-			}
-
-			return PartialView(m);
 		}
 
 		[HttpGet]
 		public ActionResult PluginsList()
 		{
-			var m = new CalculatorModel.OperatorsModel { Plugins = Operators.GetList().Select(set => set.Key).ToList() };
+			var operators = Operators.GetList();
+			var m = new CalculatorModel.PluginsModel { Plugins = operators.Keys.ToList()};
+			m.Operators = operators[m.Plugins.First()];
 			return PartialView(m);
+		}
+
+		[HttpPost]
+		public ActionResult OperatorsList(string selected)
+		{
+			var operators = Operators.GetList()[selected];
+			return PartialView(operators);
+		}
+
+		[HttpPost]
+		public string CalculatorResult(CalculatorModel m)
+		{
+			if (ModelState.IsValid)
+			{
+				return GetAnswer(m.InputExpression);
+			}
+
+			return "";
 		}
 
 		[HttpPost]
@@ -70,7 +84,7 @@ namespace WebCalculator.Controllers
 				return e.Message;
 			}
 
-			return "File successfully loaded";
+			return "Success";
 		}
     }
 }

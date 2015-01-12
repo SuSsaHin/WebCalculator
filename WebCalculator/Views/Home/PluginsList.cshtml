@@ -1,5 +1,10 @@
-﻿@model WebCalculator.Models.CalculatorModel.OperatorsModel
+﻿@model WebCalculator.Models.CalculatorModel.PluginsModel
 
 <div id="pluginsList">
-        @Html.DropDownListFor(m => m.SelectedPlugin, new SelectList(@Model.Plugins))
+    
+    @Html.DropDownList("SelectedPlugin", new SelectList(Model.Plugins), new { id = "SelectedPlugin", onchange = "updateOperators(this)" })
+
+    <br />
+    <br />
+    @Html.Partial("OperatorsList", Model.Operators)
 </div>

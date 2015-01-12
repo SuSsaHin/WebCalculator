@@ -11,15 +11,13 @@ namespace WebCalculator.Models
 
 		public string Result { get; set; }
 
-		public OperatorsModel Operators { get; set; }
+		public PluginsModel Operators { get; set; }
 		
-		public class OperatorsModel
+		public class PluginsModel
 		{
 			public List<string> Plugins { get; set; }
 
-			//[Required(ErrorMessage = "Выберите плагин")]
-			[Display(Name = "Плагин")]
-			public string SelectedPlugin { get; set; }
+			public List<string> Operators { get; set; }
 		}
 	}
 }

@@ -1,25 +1,9 @@
-﻿@model WebCalculator.Models.CalculatorModel.OperatorsModel
+﻿@model WebCalculator.Models.CalculatorModel.PluginsModel
 
 @using (Ajax.BeginForm(new AjaxOptions()))
 { 
-    <script>
-        $(function () {
-            var status = $("#status");
-
-            $("#UploadButton").ajaxUpload({
-                url: "/Home/Upload",
-                name: "file0",
-                onComplete: function(response){
-                    status.text(response);
-                    $('#pluginsList').load('Home/PluginsList');
-                }
-            });
-        });
-    </script>
-
     <fieldset>
         <legend>Загрузка плагина</legend>
-        @*<input type="submit" value="Upload" id="UploadButton" />*@
         <div class ="UploadButton" id="UploadButton">UploadFile</div>
         <span id="status"></span>
         <br/>
