@@ -12,6 +12,8 @@ namespace WebCalculator.Calculators
 	{
 		private readonly Dictionary<string, Dictionary<string, IOperator>> operators = new Dictionary<string, Dictionary<string, IOperator>>();
 
+		private const string baseName = "base";
+
 		private static string GetKey(string operatorText, int operatorDimension)
 		{
 			return operatorText + " " + operatorDimension;
@@ -30,7 +32,7 @@ namespace WebCalculator.Calculators
 
 			var baseOperators = operatorsList.ToDictionary(op => GetKey(op.Text, op.Dimension));
 
-			operators.Add("base", baseOperators);
+			operators.Add(baseName, baseOperators);
 		}
 
 		public IOperator Get(string text, int dimension)
@@ -87,9 +89,12 @@ namespace WebCalculator.Calculators
 			operators.Add(dllName, newOperators);
 		}
 
-		public bool DeletePlugin(string dllName)
+		public bool DeletePlugin(string pluginName)
 		{
-			return operators.Remove(dllName);
+			if (pluginName == baseName)
+				return false;
+
+			return operators.Remove(pluginName);
 		}
 	}
 }

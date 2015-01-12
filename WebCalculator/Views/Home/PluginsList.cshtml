@@ -2,8 +2,9 @@
 
 <div id="pluginsList">
     
-    @Html.DropDownList("SelectedPlugin", new SelectList(Model.Plugins), new { id = "SelectedPlugin", onchange = "updateOperators(this)" })
+    @Html.DropDownList("SelectedPlugin", new SelectList(Model.Plugins), new { id = "SelectedPlugin", onchange = "UpdateOperators(this)" })
 
+    <button id ="DeleteButton" onclick="DeletePlugin('SelectedPlugin')">Delete</button>
     <br />
     <br />
     @Html.Partial("OperatorsList", Model.Operators)

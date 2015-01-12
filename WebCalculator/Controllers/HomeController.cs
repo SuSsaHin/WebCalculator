@@ -86,5 +86,11 @@ namespace WebCalculator.Controllers
 
 			return "Success";
 		}
+
+		[HttpPost]
+		public void DeletePlugin(string deleted)
+		{
+			Operators.DeletePlugin(deleted);
+		}
     }
 }
