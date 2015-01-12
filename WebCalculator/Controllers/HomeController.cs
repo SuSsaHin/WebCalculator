@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Web.Mvc;
 using WebCalculator.Calculators;
 using WebCalculator.Models;
@@ -12,6 +11,18 @@ namespace WebCalculator.Controllers
     public class HomeController : Controller
     {
 		private PluginsOperators Operators { get { return (PluginsOperators) Session["Operators"]; } }
+
+	    private CalculatorModel.PluginsModel GetPluginsModel()
+	    {
+			var operators = Operators.GetNamesList();
+			var m = new CalculatorModel.PluginsModel { Plugins = operators.Keys.ToList() };
+
+			var first = m.Plugins.FirstOrDefault();
+			m.Operators = first == null ? new List<string>() : operators[first];
+
+		    return m;
+	    }
+
 		private string GetAnswer(string expression)
 		{
 			string answer;
@@ -31,11 +42,7 @@ namespace WebCalculator.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-	        var operators = Operators.GetList();
-	        var m = new CalculatorModel { Result = "", Operators = new CalculatorModel.PluginsModel { Plugins = operators.Keys.ToList()} };
-
-	        var first = m.Operators.Plugins.FirstOrDefault();
-	        m.Operators.Operators = first == null ? new List<string>() : operators[first];
+	        var m = new CalculatorModel { Result = "", Plugins = GetPluginsModel() };
 
 	        return View(m);
 		}
@@ -43,16 +50,13 @@ namespace WebCalculator.Controllers
 		[HttpGet]
 		public ActionResult PluginsListPart()
 		{
-			var operators = Operators.GetList();
-			var m = new CalculatorModel.PluginsModel { Plugins = operators.Keys.ToList()};
-			m.Operators = operators[m.Plugins.First()];
-			return PartialView(m);
+			return PartialView(GetPluginsModel());
 		}
 
 		[HttpPost]
 		public ActionResult OperatorsListPart(string selected)
 		{
-			var operators = Operators.GetList()[selected];
+			var operators = Operators.GetNamesList()[selected];
 			return PartialView(operators);
 		}
 
@@ -68,12 +72,16 @@ namespace WebCalculator.Controllers
 		}
 
 		[HttpPost]
-		public string Upload()
+		public string UploadDll()
 		{
 			try
 			{
-				var file = Request.Files["file0"];
-				if (Path.GetExtension(file.FileName).ToLower() != ".dll")
+				var file = Request.Files["lib"];
+				if (file == null)
+					return "Empty file";
+
+				var extension = Path.GetExtension(file.FileName);
+				if (extension == null || extension.ToLower() != ".dll")
 					return "Bad file format";
 
 				var buffer = new byte[file.ContentLength];

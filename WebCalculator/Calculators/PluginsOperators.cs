@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BaseOperators;
 using OperatorsLibrary;
+using WebCalculator.Calculators.BaseOperators;
 
 namespace WebCalculator.Calculators
 {
@@ -11,7 +11,7 @@ namespace WebCalculator.Calculators
 	{
 		private readonly Dictionary<string, Dictionary<string, IOperator>> operators = new Dictionary<string, Dictionary<string, IOperator>>();
 
-		private const string baseName = "base";
+		private const string baseSetName = "base";
 
 		private static string GetKey(string operatorText, uint operatorDimension)
 		{
@@ -75,7 +75,7 @@ namespace WebCalculator.Calculators
 
 			var baseOperators = operatorsList.ToDictionary(op => GetKey(op.Text, op.Dimension));
 
-			operators.Add(baseName, baseOperators);
+			operators.Add(baseSetName, baseOperators);
 		}
 
 		public IOperator Get(string text, uint dimension)
@@ -90,7 +90,7 @@ namespace WebCalculator.Calculators
 			throw new Exception("Unknown operator: " + key);
 		}
 
-		public Dictionary<string, List<string>> GetList()
+		public Dictionary<string, List<string>> GetNamesList()
 		{
 			return operators.ToDictionary(set => set.Key, set => set.Value.Select(op => op.Key).ToList());
 		}
@@ -111,7 +111,7 @@ namespace WebCalculator.Calculators
 
 		public bool DeletePlugin(string pluginName)
 		{
-			if (pluginName == baseName)
+			if (pluginName == baseSetName)
 				return false;
 
 			return operators.Remove(pluginName);

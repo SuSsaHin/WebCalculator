@@ -30,7 +30,6 @@ namespace WebCalculator.Calculators.States
 		public void Complete(CalculatorContext context)
 		{
 			throw new Exception("Empty input");
-			//calculator.PushNumber(0);
 		}
 	}
 }

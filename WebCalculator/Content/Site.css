@@ -1,10 +1,12 @@
-﻿.UploadButton{
-font-weight:bold; font-size:1.0em;
+﻿.UploadButton {
+font-weight:bold; 
+font-size:1.0em;
 font-family:Arial, Helvetica, sans-serif;
 text-align:center;
 background:#f2f2f2;
 border:1px solid #ccc;
 width:100px;
 cursor:pointer !important;
--moz-border-radius:5px; -webkit-border-radius:5px;
+-moz-border-radius:5px; 
+-webkit-border-radius:5px;
 }

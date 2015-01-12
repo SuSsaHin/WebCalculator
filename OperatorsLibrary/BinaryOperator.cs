@@ -17,7 +17,7 @@ namespace OperatorsLibrary
 		public double Execute(List<double> args)
 		{
 			if (args.Count != Dimension)
-				throw new Exception("Bad arguments count for unary operator: " + args.Count);
+				throw new Exception("Bad arguments count for binary operator: " + args.Count);
 
 			return Execute(args[0], args[1]);
 		}

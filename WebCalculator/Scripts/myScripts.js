@@ -5,7 +5,7 @@
 function UpdateOperators(select) {
     var index = select.selectedIndex;
     var selected = select.options[index].value;
-    $.post("Home/OperatorsListPart?selected=" + selected, function (data) {
+    $.post('Home/OperatorsListPart?selected=' + selected, function (data) {
         $('#SelectedOperators').html(data);
         select.selectedIndex = index;
     });
@@ -16,19 +16,17 @@ function UpdatePlugins() {
 }
 
 function DeletePlugin(elementId) {
-    var select = document.getElementById(elementId);
-    var index = select.selectedIndex;
-    var selected = select.options[index].value;
-    $.post("Home/DeletePlugin?deleted=" + selected, function () { UpdatePlugins(); });
+    var selected = $('#'+elementId).val();
+    $.post('Home/DeletePlugin?deleted=' + selected, function () { UpdatePlugins(); });
 }
 
 $(function () {
-    $("#UploadButton").ajaxUpload({
-        url: "/Home/Upload",
-        name: "file0",
+    $('#UploadButton').ajaxUpload({
+        url: '/Home/UploadDll',
+        name: 'lib',
         onComplete: function (response) {
-            $("#status").text(response);
-            if (response.toLowerCase() === "success")
+            $('#status').text(response);
+            if (response.toLowerCase() === 'success')
                 UpdatePlugins();
         }
     });

@@ -6,7 +6,7 @@
 
 <a href="/Home/Help" target="_blank">Справка</a>
 
-@Html.Partial("PluginsPart", Model.Operators)
+@Html.Partial("PluginsPart", Model.Plugins)
 
 @using (Ajax.BeginForm("CalculatorResult", "Home", new AjaxOptions { UpdateTargetId = "calculatorResult" }, new { name = "CalculatorForm" }))
 {

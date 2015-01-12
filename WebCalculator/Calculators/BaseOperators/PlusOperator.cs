@@ -1,6 +1,6 @@
 ﻿using OperatorsLibrary;
 
-namespace BaseOperators
+namespace WebCalculator.Calculators.BaseOperators
 {
 	class PlusOperator : BinaryOperator
 	{
